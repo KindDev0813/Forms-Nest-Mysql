@@ -1,0 +1,35 @@
+.singleLine {
+    width: 50vw;
+    padding: 5px 10%;
+    margin: auto;
+}
+
+.AppForm {
+    background-color: rgba(255, 233, 109, 0.5);
+    color: black;
+    border: 1px solid rgb(250, 227, 96);
+    margin: auto;
+    padding: 0.5vw;
+    border-radius: 2px;
+    height: fit-content;
+    text-shadow: 1px 1px 3px white;
+}
+
+.formbutton {
+    cursor: pointer;
+    background-image: linear-gradient(10deg, rgb(123, 58, 58), darkred, rgb(62, 1, 62), darkred, rgb(123, 58, 58));
+    border-color: brown;
+    width: fit-content;
+    padding: 5px 10%;
+    margin: auto;
+}
+
+.formbody {
+    border-top: 1px solid;
+    width: 80%;
+    margin: auto;
+}
+
+.white{
+    color:white;
+}
