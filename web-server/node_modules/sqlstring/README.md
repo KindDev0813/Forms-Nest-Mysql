@@ -3,7 +3,7 @@
 [![NPM Version][npm-version-image]][npm-url]
 [![NPM Downloads][npm-downloads-image]][npm-url]
 [![Node.js Version][node-image]][node-url]
-[![Build Status][github-actions-ci-image]][github-actions-ci-url]
+[![Build Status][travis-image]][travis-url]
 [![Coverage Status][coveralls-image]][coveralls-url]
 
 Simple SQL escape and format for MySQL
@@ -16,6 +16,7 @@ $ npm install sqlstring
 
 ## Usage
 
+<!-- eslint-disable no-undef, no-unused-vars -->
 
 ```js
 var SqlString = require('sqlstring');
@@ -31,6 +32,8 @@ In order to avoid SQL Injection attacks, you should always escape any user
 provided data before using it inside a SQL query. You can do so using the
 `SqlString.escape()` method:
 
+<!-- eslint-disable no-undef -->
+
 ```js
 var userId = 'some user provided value';
 var sql    = 'SELECT * FROM users WHERE id = ' + SqlString.escape(userId);
@@ -39,6 +42,8 @@ console.log(sql); // SELECT * FROM users WHERE id = 'some user provided value'
 
 Alternatively, you can use `?` characters as placeholders for values you would
 like to have escaped like this:
+
+<!-- eslint-disable no-undef -->
 
 ```js
 var userId = 1;
@@ -49,6 +54,8 @@ console.log(sql); // SELECT * FROM users WHERE id = 1
 Multiple placeholders are mapped to values in the same order as passed. For example,
 in the following query `foo` equals `a`, `bar` equals `b`, `baz` equals `c`, and
 `id` will be `userId`:
+
+<!-- eslint-disable no-undef -->
 
 ```js
 var userId = 1;
@@ -86,6 +93,8 @@ Different value types are escaped differently, here is how:
 
 You may have noticed that this escaping allows you to do neat things like this:
 
+<!-- eslint-disable no-undef -->
+
 ```js
 var post  = {id: 1, title: 'Hello MySQL'};
 var sql = SqlString.format('INSERT INTO posts SET ?', post);
@@ -93,6 +102,8 @@ console.log(sql); // INSERT INTO posts SET `id` = 1, `title` = 'Hello MySQL'
 ```
 
 And the `toSqlString` method allows you to form complex queries with functions:
+
+<!-- eslint-disable no-undef -->
 
 ```js
 var CURRENT_TIMESTAMP = { toSqlString: function() { return 'CURRENT_TIMESTAMP()'; } };
@@ -107,6 +118,8 @@ placeholder, useful for using functions as dynamic values:
 **Caution** The string provided to `SqlString.raw()` will skip all escaping
 functions when used, so be careful when passing in unvalidated input.
 
+<!-- eslint-disable no-undef -->
+
 ```js
 var CURRENT_TIMESTAMP = SqlString.raw('CURRENT_TIMESTAMP()');
 var sql = SqlString.format('UPDATE posts SET modified = ? WHERE id = ?', [CURRENT_TIMESTAMP, 42]);
@@ -115,6 +128,8 @@ console.log(sql); // UPDATE posts SET modified = CURRENT_TIMESTAMP() WHERE id = 
 
 If you feel the need to escape queries by yourself, you can also use the escaping
 function directly:
+
+<!-- eslint-disable no-undef -->
 
 ```js
 var sql = 'SELECT * FROM posts WHERE title=' + SqlString.escape('Hello MySQL');
@@ -126,6 +141,8 @@ console.log(sql); // SELECT * FROM posts WHERE title='Hello MySQL'
 If you can't trust an SQL identifier (database / table / column name) because it is
 provided by a user, you should escape it with `SqlString.escapeId(identifier)` like this:
 
+<!-- eslint-disable no-undef -->
+
 ```js
 var sorter = 'date';
 var sql    = 'SELECT * FROM posts ORDER BY ' + SqlString.escapeId(sorter);
@@ -133,6 +150,8 @@ console.log(sql); // SELECT * FROM posts ORDER BY `date`
 ```
 
 It also supports adding qualified identifiers. It will escape both parts.
+
+<!-- eslint-disable no-undef -->
 
 ```js
 var sorter = 'date';
@@ -143,6 +162,8 @@ console.log(sql); // SELECT * FROM posts ORDER BY `posts`.`date`
 If you do not want to treat `.` as qualified identifiers, you can set the second
 argument to `true` in order to keep the string as a literal identifier:
 
+<!-- eslint-disable no-undef -->
+
 ```js
 var sorter = 'date.2';
 var sql    = 'SELECT * FROM posts ORDER BY ' + SqlString.escapeId(sorter, true);
@@ -151,6 +172,8 @@ console.log(sql); // SELECT * FROM posts ORDER BY `date.2`
 
 Alternatively, you can use `??` characters as placeholders for identifiers you would
 like to have escaped like this:
+
+<!-- eslint-disable no-undef -->
 
 ```js
 var userId = 1;
@@ -166,6 +189,8 @@ When you pass an Object to `.escape()` or `.format()`, `.escapeId()` is used to 
 
 You can use `SqlString.format` to prepare a query with multiple insertion points,
 utilizing the proper escaping for ids and values. A simple example of this follows:
+
+<!-- eslint-disable no-undef -->
 
 ```js
 var userId  = 1;
@@ -183,6 +208,8 @@ location-specific/timezone-aware `Date`.
 This can be further combined with the `SqlString.raw()` helper to generate SQL
 that includes MySQL functions as dynamic vales:
 
+<!-- eslint-disable no-undef -->
+
 ```js
 var userId = 1;
 var data   = { email: 'foobar@example.com', modified: SqlString.raw('NOW()') };
@@ -197,9 +224,9 @@ console.log(sql); // UPDATE `users` SET `email` = 'foobar@example.com', `modifie
 [npm-version-image]: https://img.shields.io/npm/v/sqlstring.svg
 [npm-downloads-image]: https://img.shields.io/npm/dm/sqlstring.svg
 [npm-url]: https://npmjs.org/package/sqlstring
+[travis-image]: https://img.shields.io/travis/mysqljs/sqlstring/master.svg
+[travis-url]: https://travis-ci.org/mysqljs/sqlstring
 [coveralls-image]: https://img.shields.io/coveralls/mysqljs/sqlstring/master.svg
 [coveralls-url]: https://coveralls.io/r/mysqljs/sqlstring?branch=master
-[github-actions-ci-image]: https://img.shields.io/github/workflow/status/mysqljs/sqlstring/ci/master?label=build
-[github-actions-ci-url]: https://github.com/mysqljs/sqlstring/actions/workflows/ci.yml
 [node-image]: https://img.shields.io/node/v/sqlstring.svg
 [node-url]: https://nodejs.org/en/download

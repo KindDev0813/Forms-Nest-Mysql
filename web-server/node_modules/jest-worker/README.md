@@ -2,7 +2,7 @@
 
 Module for executing heavy tasks under forked processes in parallel, by providing a `Promise` based interface, minimum overhead, and bound workers.
 
-The module works by providing an absolute path of the module to be loaded in all forked processes. All methods are exposed on the parent process as promises, so they can be `await`'ed. Child (worker) methods can either be synchronous or asynchronous.
+The module works by providing an absolute path of the module to be loaded in all forked processes. Files relative to a node module are also accepted. All methods are exposed on the parent process as promises, so they can be `await`'ed. Child (worker) methods can either be synchronous or asynchronous.
 
 The module also implements support for bound workers. Binding a worker means that, based on certain parameters, the same task will always be executed by the same worker. The way bound workers work is by using the returned string of the `computeWorkerKey` method. If the string was used before for a task, the call will be queued to the related worker that processed the task earlier; if not, it will be executed by the first available worker, then sticked to the worker that executed it; so the next time it will be processed by the same worker. If you have no preference on the worker executing the task, but you have defined a `computeWorkerKey` method because you want _some_ of the tasks to be sticked, you can return `null` from it.
 
@@ -11,7 +11,7 @@ The list of exposed methods can be explicitly provided via the `exposedMethods` 
 ## Install
 
 ```sh
-yarn add jest-worker
+$ yarn add jest-worker
 ```
 
 ## Example
@@ -20,11 +20,11 @@ This example covers the minimal usage:
 
 ### File `parent.js`
 
-```js
+```javascript
 import {Worker as JestWorker} from 'jest-worker';
 
 async function main() {
-  const worker = new JestWorker(require.resolve('./worker'));
+  const worker = new JestWorker(require.resolve('./Worker'));
   const result = await worker.hello('Alice'); // "Hello, Alice"
 }
 
@@ -33,17 +33,17 @@ main();
 
 ### File `worker.js`
 
-```js
+```javascript
 export function hello(param) {
-  return `Hello, ${param}`;
+  return 'Hello, ' + param;
 }
 ```
 
 ## Experimental worker
 
-Node shipped with [`worker_threads`](https://nodejs.org/api/worker_threads.html), a "threading API" that uses `SharedArrayBuffers` to communicate between the main process and its child threads. This feature can significantly improve the communication time between parent and child processes in `jest-worker`.
+Node 10 shipped with [worker-threads](https://nodejs.org/api/worker_threads.html), a "threading API" that uses SharedArrayBuffers to communicate between the main process and its child threads. This experimental Node feature can significantly improve the communication time between parent and child processes in `jest-worker`.
 
-To use `worker_threads` instead of default `child_process` you have to pass `enableWorkerThreads: true` when instantiating the worker.
+Since `worker_threads` are considered experimental in Node, you have to opt-in to this behavior by passing `enableWorkerThreads: true` when instantiating the worker. While the feature was unflagged in Node 11.7.0, you'll need to run the Node process with the `--experimental-worker` flag for Node 10.
 
 ## API
 
@@ -55,7 +55,23 @@ Node module name or absolute path of the file to be loaded in the child processe
 
 ### `options: Object` (optional)
 
-#### `computeWorkerKey: (method: string, ...args: Array<unknown>) => string | null` (optional)
+#### `exposedMethods: $ReadOnlyArray<string>` (optional)
+
+List of method names that can be called on the child processes from the parent process. You cannot expose any method named like a public `Worker` method, or starting with `_`. If you use method auto-discovery, then these methods will not be exposed, even if they exist.
+
+#### `numWorkers: number` (optional)
+
+Amount of workers to spawn. Defaults to the number of CPUs minus 1.
+
+#### `maxRetries: number` (optional)
+
+Maximum amount of times that a dead child can be re-spawned, per call. Defaults to `3`, pass `Infinity` to allow endless retries.
+
+#### `forkOptions: Object` (optional)
+
+Allow customizing all options passed to `childProcess.fork`. By default, some values are set (`cwd`, `env` and `execArgv`), but you can override them and customize the rest. For a list of valid values, check [the Node documentation](https://nodejs.org/api/child_process.html#child_process_child_process_fork_modulepath_args_options).
+
+#### `computeWorkerKey: (method: string, ...args: Array<any>) => ?string` (optional)
 
 Every time a method exposed via the API is called, `computeWorkerKey` is also called in order to bound the call to a worker. This is useful for workers that are able to cache the result or part of it. You bound calls to a worker by making `computeWorkerKey` return the same identifier for all different calls. If you do not want to bind the call to any worker, return `null`.
 
@@ -63,46 +79,19 @@ The callback you provide is called with the method name, plus all the rest of th
 
 By default, no process is bound to any worker.
 
-#### `enableWorkerThreads: boolean` (optional)
-
-By default, `jest-worker` will use `child_process` threads to spawn new Node.js processes. If you prefer [`worker_threads`](https://nodejs.org/api/worker_threads.html) instead, pass `enableWorkerThreads: true`.
-
-#### `exposedMethods: ReadonlyArray<string>` (optional)
-
-List of method names that can be called on the child processes from the parent process. You cannot expose any method named like a public `Worker` method, or starting with `_`. If you use method auto-discovery, then these methods will not be exposed, even if they exist.
-
-#### `forkOptions: ForkOptions` (optional)
-
-Allow customizing all options passed to `child_process.fork`. By default, some values are set (`cwd`, `env`, `execArgv` and `serialization`), but you can override them and customize the rest. For a list of valid values, check [the Node documentation](https://nodejs.org/api/child_process.html#child_process_child_process_fork_modulepath_args_options).
-
-#### `maxRetries: number` (optional)
-
-Maximum amount of times that a dead child can be re-spawned, per call. Defaults to `3`, pass `Infinity` to allow endless retries.
-
-#### `numWorkers: number` (optional)
-
-Amount of workers to spawn. Defaults to the number of CPUs minus 1.
-
-#### `resourceLimits: ResourceLimits` (optional)
-
-The `resourceLimits` option which will be passed to `worker_threads` workers.
-
-#### `setupArgs: Array<unknown>` (optional)
+#### `setupArgs: Array<mixed>` (optional)
 
 The arguments that will be passed to the `setup` method during initialization.
 
-#### `taskQueue: TaskQueue` (optional)
+#### `WorkerPool: (workerPath: string, options?: WorkerPoolOptions) => WorkerPoolInterface` (optional)
 
-The task queue defines in which order tasks (method calls) are processed by the workers. `jest-worker` ships with a `FifoQueue` and `PriorityQueue`:
+Provide a custom worker pool to be used for spawning child processes. By default, Jest will use a node thread pool if available and fall back to child process threads.
 
-- `FifoQueue` (default): Processes the method calls (tasks) in the call order.
-- `PriorityQueue`: Processes the method calls by a computed priority in natural ordering (lower priorities first). Tasks with the same priority are processed in any order (FIFO not guaranteed). The constructor accepts a single argument, the function that is passed the name of the called function and the arguments and returns a numerical value for the priority: `new require('jest-worker').PriorityQueue((method, filename) => filename.length)`.
+#### `enableWorkerThreads: boolean` (optional)
 
-#### `WorkerPool: new (workerPath: string, options?: WorkerPoolOptions) => WorkerPoolInterface` (optional)
+`jest-worker` will automatically detect if `worker_threads` are available, but will not use them unless passed `enableWorkerThreads: true`.
 
-Provide a custom WorkerPool class to be used for spawning child processes.
-
-#### `workerSchedulingPolicy: 'round-robin' | 'in-order'` (optional)
+### `workerSchedulingPolicy: 'round-robin' | 'in-order'` (optional)
 
 Specifies the policy how tasks are assigned to workers if multiple workers are _idle_:
 
@@ -110,6 +99,13 @@ Specifies the policy how tasks are assigned to workers if multiple workers are _
 - `in-order`: The task will be assigned to the first free worker starting with worker 1 and only assign the work to worker 2 if the worker 1 is busy.
 
 Tasks are always assigned to the first free worker as soon as tasks start to queue up. The scheduling policy does not define the task scheduling which is always first-in, first-out.
+
+### `taskQueue`: TaskQueue` (optional)
+
+The task queue defines in which order tasks (method calls) are processed by the workers. `jest-worker` ships with a `FifoQueue` and `PriorityQueue`:
+
+- `FifoQueue` (default): Processes the method calls (tasks) in the call order.
+- `PriorityQueue`: Processes the method calls by a computed priority in natural ordering (lower priorities first). Tasks with the same priority are processed in any order (FIFO not guaranteed). The constructor accepts a single argument, the function that is passed the name of the called function and the arguments and returns a numerical value for the priority: `new require('jest-worker').PriorityQueue((method, filename) => filename.length)`.
 
 ## JestWorker
 
@@ -139,7 +135,7 @@ Consider deliberately leaving this Promise floating (unhandled resolution). Afte
 
 ### Worker IDs
 
-Each worker has a unique id (index that starts with `'1'`), which is available inside the worker as `process.env.JEST_WORKER_ID`.
+Each worker has a unique id (index that starts with `1`), which is available inside the worker as `process.env.JEST_WORKER_ID`.
 
 ## Setting up and tearing down the child process
 
@@ -156,11 +152,11 @@ This example covers the standard usage:
 
 ### File `parent.js`
 
-```js
+```javascript
 import {Worker as JestWorker} from 'jest-worker';
 
 async function main() {
-  const myWorker = new JestWorker(require.resolve('./worker'), {
+  const myWorker = new JestWorker(require.resolve('./Worker'), {
     exposedMethods: ['foo', 'bar', 'getWorkerId'],
     numWorkers: 4,
   });
@@ -180,13 +176,13 @@ main();
 
 ### File `worker.js`
 
-```js
+```javascript
 export function foo(param) {
-  return `Hello from foo: ${param}`;
+  return 'Hello from foo: ' + param;
 }
 
 export function bar(param) {
-  return `Hello from bar: ${param}`;
+  return 'Hello from bar: ' + param;
 }
 
 export function getWorkerId() {
@@ -200,11 +196,11 @@ This example covers the usage with a `computeWorkerKey` method:
 
 ### File `parent.js`
 
-```js
+```javascript
 import {Worker as JestWorker} from 'jest-worker';
 
 async function main() {
-  const myWorker = new JestWorker(require.resolve('./worker'), {
+  const myWorker = new JestWorker(require.resolve('./Worker'), {
     computeWorkerKey: (method, filename) => filename,
   });
 
@@ -230,7 +226,7 @@ main();
 
 ### File `worker.js`
 
-```js
+```javascript
 import babel from '@babel/core';
 
 const cache = Object.create(null);

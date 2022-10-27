@@ -36,7 +36,7 @@ const invalidCacheStrategyErrorMessage = `Cache strategy must be one of: ${valid
  */
 function isValidCacheStrategy(cacheStrategy) {
     return (
-        validCacheStrategies.includes(cacheStrategy)
+        validCacheStrategies.indexOf(cacheStrategy) !== -1
     );
 }
 

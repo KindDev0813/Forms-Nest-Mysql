@@ -7,5 +7,5 @@ module.exports = function(it) {
 Failed to read JSON file at ${path}:
 
 ${message}
-`.trimStart();
+`.trimLeft();
 };

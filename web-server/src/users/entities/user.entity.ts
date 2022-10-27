@@ -1,18 +1,18 @@
 import {
     Column,
     Entity,
-    PrimaryColumn,
 } from 'typeorm';
 import { IsEmail } from 'class-validator';
 
 @Entity()
 export class User {
-    @PrimaryColumn({
+    @Column({
         name: 'userName',
         nullable: false,
         type: 'varchar',
         length: 30,
         default: '',
+        primary:true,
     })
     name:string
 
@@ -79,4 +79,11 @@ export class User {
         default: '',
     })
     phone: string;
+
+    @Column({
+        nullable:true,
+        type: Boolean,
+        default:false
+    })
+    manager:Boolean;
 }

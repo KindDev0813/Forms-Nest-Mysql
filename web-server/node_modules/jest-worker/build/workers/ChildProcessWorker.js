@@ -51,12 +51,20 @@ function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : {default: obj};
 }
 
-/**
- * Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+  return obj;
+}
+
 const SIGNAL_BASE_EXIT_CODE = 128;
 const SIGKILL_EXIT_CODE = SIGNAL_BASE_EXIT_CODE + 9;
 const SIGTERM_EXIT_CODE = SIGNAL_BASE_EXIT_CODE + 15; // How long to wait after SIGTERM before sending SIGKILL
@@ -82,19 +90,29 @@ const SIGKILL_DELAY = 500;
  */
 
 class ChildProcessWorker {
-  _child;
-  _options;
-  _request;
-  _retries;
-  _onProcessEnd;
-  _onCustomMessage;
-  _fakeStream;
-  _stdout;
-  _stderr;
-  _exitPromise;
-  _resolveExitPromise;
-
   constructor(options) {
+    _defineProperty(this, '_child', void 0);
+
+    _defineProperty(this, '_options', void 0);
+
+    _defineProperty(this, '_request', void 0);
+
+    _defineProperty(this, '_retries', void 0);
+
+    _defineProperty(this, '_onProcessEnd', void 0);
+
+    _defineProperty(this, '_onCustomMessage', void 0);
+
+    _defineProperty(this, '_fakeStream', void 0);
+
+    _defineProperty(this, '_stdout', void 0);
+
+    _defineProperty(this, '_stderr', void 0);
+
+    _defineProperty(this, '_exitPromise', void 0);
+
+    _defineProperty(this, '_resolveExitPromise', void 0);
+
     this._options = options;
     this._request = null;
     this._fakeStream = null;
@@ -125,9 +143,6 @@ class ChildProcessWorker {
         },
         // Suppress --debug / --inspect flags while preserving others (like --harmony).
         execArgv: process.execArgv.filter(v => !/^--(debug|inspect)/.test(v)),
-        // default to advanced serialization in order to match worker threads
-        // @ts-expect-error: option does not exist on the node 12 types
-        serialization: 'advanced',
         silent: true,
         ...this._options.forkOptions
       }
@@ -210,7 +225,7 @@ class ChildProcessWorker {
         if (error != null && typeof error === 'object') {
           const extra = error; // @ts-expect-error: no index
 
-          const NativeCtor = globalThis[response[1]];
+          const NativeCtor = global[response[1]];
           const Ctor = typeof NativeCtor === 'function' ? NativeCtor : Error;
           error = new Ctor(response[2]);
           error.type = response[1];
@@ -226,7 +241,7 @@ class ChildProcessWorker {
         break;
 
       case _types.PARENT_MESSAGE_SETUP_ERROR:
-        error = new Error(`Error when calling setup: ${response[2]}`);
+        error = new Error('Error when calling setup: ' + response[2]);
         error.type = response[1];
         error.stack = response[3];
 
@@ -240,7 +255,7 @@ class ChildProcessWorker {
         break;
 
       default:
-        throw new TypeError(`Unexpected response from worker: ${response[0]}`);
+        throw new TypeError('Unexpected response from worker: ' + response[0]);
     }
   }
 
@@ -274,7 +289,7 @@ class ChildProcessWorker {
     this._onCustomMessage = (...arg) => onCustomMessage(...arg);
 
     this._request = request;
-    this._retries = 0; // eslint-disable-next-line @typescript-eslint/no-empty-function
+    this._retries = 0;
 
     this._child.send(request, () => {});
   }
