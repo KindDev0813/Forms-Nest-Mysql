@@ -6,6 +6,7 @@
 * nestJS
 * typeORM <sub>//connecting to mysql//</sub>
 * bootstrap
+* bcrypt
 
 # Which Forms?
 - [x] sign in 
