@@ -1,6 +1,7 @@
 # forms
-this project includes:
-<br>
+**project in progress**
+
+# This Project Include:
 * react
 * nestJS
 * typeORM <sub>//connecting to mysql//</sub>
