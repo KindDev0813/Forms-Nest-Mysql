@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -27,10 +23,10 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.forEachReturnStatement = exports.getNameLocationInGlobalDirectiveComment = void 0;
-const ts = __importStar(require("typescript"));
 const escapeRegExp_1 = require("./escapeRegExp");
+const ts = __importStar(require("typescript"));
 // deeply re-export, for convenience
-__exportStar(require("@typescript-eslint/utils/dist/ast-utils"), exports);
+__exportStar(require("@typescript-eslint/experimental-utils/dist/ast-utils"), exports);
 // The following is copied from `eslint`'s source code since it doesn't exist in eslint@5.
 // https://github.com/eslint/eslint/blob/145aec1ab9052fbca96a44d04927c595951b1536/lib/rules/utils/ast-utils.js#L1751-L1779
 // Could be export { getNameLocationInGlobalDirectiveComment } from 'eslint/lib/rules/utils/ast-utils'

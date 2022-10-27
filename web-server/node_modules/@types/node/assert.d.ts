@@ -66,27 +66,6 @@ declare module 'assert' {
             calls(exact?: number): () => void;
             calls<Func extends (...args: any[]) => any>(fn?: Func, exact?: number): Func;
             /**
-             * Example:
-             *
-             * ```js
-             * import assert from 'node:assert';
-             *
-             * const tracker = new assert.CallTracker();
-             *
-             * function func() {}
-             * const callsfunc = tracker.calls(func);
-             * callsfunc(1, 2, 3);
-             *
-             * assert.deepStrictEqual(tracker.getCalls(callsfunc),
-             *                        [{ thisArg: this, arguments: [1, 2, 3 ] }]);
-             * ```
-             *
-             * @since v18.8.0, v16.18.0
-             * @params fn
-             * @returns An Array with the calls to a tracked function.
-             */
-            getCalls(fn: Function): CallTrackerCall[];
-            /**
              * The arrays contains information about the expected and actual number of calls of
              * the functions that have not been called the expected number of times.
              *
@@ -122,31 +101,6 @@ declare module 'assert' {
              */
             report(): CallTrackerReportInformation[];
             /**
-             * Reset calls of the call tracker.
-             * If a tracked function is passed as an argument, the calls will be reset for it.
-             * If no arguments are passed, all tracked functions will be reset.
-             *
-             * ```js
-             * import assert from 'node:assert';
-             *
-             * const tracker = new assert.CallTracker();
-             *
-             * function func() {}
-             * const callsfunc = tracker.calls(func);
-             *
-             * callsfunc();
-             * // Tracker was called once
-             * tracker.getCalls(callsfunc).length === 1;
-             *
-             * tracker.reset(callsfunc);
-             * tracker.getCalls(callsfunc).length === 0;
-             * ```
-             *
-             * @since v18.8.0, v16.18.0
-             * @param fn a tracked function to reset.
-             */
-            reset(fn?: Function): void;
-            /**
              * Iterates through the list of functions passed to `tracker.calls()` and will throw an error for functions that
              * have not been called the expected number of times.
              *
@@ -170,10 +124,6 @@ declare module 'assert' {
              * @since v14.2.0, v12.19.0
              */
             verify(): void;
-        }
-        interface CallTrackerCall {
-            thisArg: object;
-            arguments: unknown[];
         }
         interface CallTrackerReportInformation {
             message: string;

@@ -2,7 +2,7 @@
 module.exports = {
     overrides: [
         {
-            files: ['*.ts', '*.tsx', '*.mts', '*.cts'],
+            files: ['*.ts', '*.tsx'],
             rules: {
                 'constructor-super': 'off',
                 'getter-return': 'off',

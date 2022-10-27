@@ -1,8 +1,6 @@
-:::danger Deprecated
+## DEPRECATED
 
 This rule has been deprecated in favour of the [`naming-convention`](./naming-convention.md) rule.
-
-:::
 
 <!--
 This doc file has been left on purpose because `camelcase` is a core eslint rule.
