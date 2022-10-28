@@ -47,7 +47,7 @@ function Formcomp({formTitle , onclick, data , submitName}) {
         for (const name in data){
             const obj= data[name];
             formarray.push(<FormGroupType key={obj.id} value={obj.value} type={obj.type}
-                changeButton={changebutton} 
+                changeButton={changebutton} validate={obj.validations}
                 class={obj.class} id={obj.id} name={name} optioneror={hideOptionEror} onblur={check} 
                 label={obj.label} iconName={obj.iconName} placeholder={obj.placeholder} 
                 eror={obj.eror} options={obj.options}></FormGroupType>)
