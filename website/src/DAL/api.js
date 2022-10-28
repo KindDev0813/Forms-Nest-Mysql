@@ -1,4 +1,28 @@
 const data = {
+    firstName: {
+        id: 4,
+        serverName: 'firstName',
+        placeholder: "first name",
+        label: "First Name", iconName: "person-circle",
+        validations: { require: true, minLen: 2 },
+        eror: "",
+        type: "text",
+        options: [],
+        class: "col-6",
+        value: ""
+    },
+    lastName: {
+        id: 5,
+        serverName: 'lastName',
+        placeholder: "last name",
+        label: "Last Name", iconName: "person-circle",
+        validations: { require: true, minLen: 2 },
+        eror: "",
+        type: "text",
+        options: [],
+        class: "col-6",
+        value: ""
+    },
     username: {
         id: 0,
         serverName: 'name',
@@ -34,42 +58,6 @@ const data = {
         class: "col-6",
         value: ""
     },
-    Address: {
-        id: 3,
-        serverName: 'address',
-        placeholder: "Street,number,city,zip",
-        label: "Address", iconName: "building",
-        validations: { require: true, minLen: 10 },
-        eror: "",
-        type: "text",
-        options: [],
-        class: "singleLine",
-        value: ""
-    },
-    firstName: {
-        id: 4,
-        serverName: 'firstName',
-        placeholder: "first name",
-        label: "First Name", iconName: "person-circle",
-        validations: { require: true, minLen: 2 },
-        eror: "",
-        type: "text",
-        options: [],
-        class: "col-6",
-        value: ""
-    },
-    lastName: {
-        id: 5,
-        serverName: 'lastName',
-        placeholder: "last name",
-        label: "Last Name", iconName: "person-circle",
-        validations: { require: true, minLen: 2 },
-        eror: "",
-        type: "text",
-        options: [],
-        class: "col-6",
-        value: ""
-    },
     phone: {
         id: 6,
         serverName: 'phone',
@@ -80,6 +68,18 @@ const data = {
         type: "phone",
         options: [],
         class: "col-6",
+        value: ""
+    },
+    Address: {
+        id: 3,
+        serverName: 'address',
+        placeholder: "Street,number,city,zip",
+        label: "Address", iconName: "building",
+        validations: { require: true, minLen: 10 },
+        eror: "",
+        type: "text",
+        options: [],
+        class: "singleLine",
         value: ""
     },
     City: {
@@ -119,13 +119,7 @@ export async function getLoginFormDataByEmail() {
 }
 
 export async function getSignUpFormData() {
-    const Adres = { ...data.Address }
-    Adres.validations = {}
-    return {
-        firstname: { ...data.firstName }, lastname: { ...data.lastName }, username: { ...data.username },
-        password: { ...data.password }, email: { ...data.Email }, phone: { ...data.phone }, country: {...data.Country}, 
-        city:{...data.City}, Address: Adres
-    }
+    return data
 }
 
 export async function checkUser(user) {
