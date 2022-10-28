@@ -61,13 +61,14 @@ function FormGroupType(props) {
         }
         return (array)
     }
-    
+
     return (
         <Form.Group md="4" controlId={`validationCustom${props.label}`} className={props.class}>
             {props.iconName? <Form.Label>{props.label}</Form.Label>:''}
             <InputGroup>
                 <InputGroup.Text className={`bi bi-${props.iconName}`}>{props.iconName? '':props.label}</InputGroup.Text>
                 {type()}
+                {Object.keys(props.validate).length ? <span className="show star">*</span>:''}
             </InputGroup>
             <ErorMessage id={props.id} eror={props.eror}></ErorMessage>
         </Form.Group>
