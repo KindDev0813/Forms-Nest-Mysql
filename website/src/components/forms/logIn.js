@@ -1,18 +1,15 @@
 import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { validate } from "../../common/validation"
-import { saveUser } from "../../DAL/api"
-import { getLoginFormData, checkUser } from "../../DAL/api"
+import { getLoginFormData, checkUser, saveUser } from "../../DAL/api"
 import Formcomp from "./formComp"
 
 export default function LogIn() {
-
-    const [data, setdata] = useState({form:null})
+    const [data, setdata] = useState(null)
 
     useEffect(() => {
         async function getLoginData() {
-            const forms = await getLoginFormData()
-            setdata({form:forms})
+            setdata(await getLoginFormData())
         }
         getLoginData()
     },[])
@@ -26,7 +23,7 @@ export default function LogIn() {
         if(user.ok===true){
             const userData= await user.json()
             saveUser(userData)
-            navigate('/signUp')
+            navigate('/home')
         }
         else{
             alert('user name or pasword is wrong') 
@@ -34,9 +31,9 @@ export default function LogIn() {
     }
     return (
         <div className="text-center">
-            {data.form?
+            {data?
             <Formcomp formTitle='Log In' onclick={setuser} 
-            data={data.form} submitName='enter'></Formcomp>:<h1>please wait..</h1>}
+            data={data} submitName='enter'></Formcomp>:<h1>please wait..</h1>}
             <span><Link to={'/home'}>Enter as guest</Link> OR <Link to={'/signup'}>Sign up</Link></span>
         </div>
     )
