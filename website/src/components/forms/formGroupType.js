@@ -68,7 +68,7 @@ function FormGroupType(props) {
             <InputGroup>
                 <InputGroup.Text className={`bi bi-${props.iconName}`}>{props.iconName? '':props.label}</InputGroup.Text>
                 {type()}
-                {Object.keys(props.validate).length ? <span className="show star">*</span>:''}
+                {props.validate.require ? <span className="show star">*</span>:''}
             </InputGroup>
             <ErorMessage id={props.id} eror={props.eror}></ErorMessage>
         </Form.Group>

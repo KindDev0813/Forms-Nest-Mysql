@@ -37,8 +37,7 @@ export default function LogIn() {
             {data.form?
             <Formcomp formTitle='Log In' onclick={setuser} 
             data={data.form} submitName='enter'></Formcomp>:<h1>please wait..</h1>}
-            <button onClick={()=>navigate('/signup')} className="formbutton">
-            <Link style={{color:'white',textShadow:'2px 2px 2px blue'}}>Sign up</Link></button>
+            <span><Link to={'/home'}>Enter as guest</Link> OR <Link to={'/signup'}>Sign up</Link></span>
         </div>
     )
 }
