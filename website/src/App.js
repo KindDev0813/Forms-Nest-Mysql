@@ -4,6 +4,7 @@ import './App.css';
 import LogIn from "./components/forms/logIn";
 import SignUp from "./components/forms/SignUp";
 import {Route, Routes} from 'react-router-dom';
+import { Home } from "./components/Home/home";
 
 function App() {
 
@@ -13,7 +14,7 @@ function App() {
         <Routes>
           <Route path='/' element={<LogIn></LogIn>}/>
           <Route path='/signUp' element={<SignUp></SignUp>}/>
-          {/* <Route path='/home' element={}/> */}
+          <Route path='/home' element={<Home></Home>}/>
         </Routes>
       </main>
     </section>

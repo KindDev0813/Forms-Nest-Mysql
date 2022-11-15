@@ -32,7 +32,7 @@ const data = {
         eror: "",
         type: "text",
         options: [],
-        class: "singleLine",
+        class: "col-6",
         value: ""
     },
     password: {
@@ -43,7 +43,7 @@ const data = {
         validations: { minLen: 2 },
         eror: "",
         type: "password",
-        class: "singleLine",
+        class: "col-6",
         value: ""
     },
     Email: {
@@ -70,18 +70,6 @@ const data = {
         class: "col-6",
         value: ""
     },
-    Address: {
-        id: 3,
-        serverName: 'address',
-        placeholder: "Street,number,city,zip",
-        label: "Address", iconName: "building",
-        validations: { minLen: 10 },
-        eror: "",
-        type: "text",
-        options: [],
-        class: "singleLine",
-        value: ""
-    },
     City: {
         id: 7,
         serverName: 'city',
@@ -106,16 +94,28 @@ const data = {
         class: "col-6",
         value: ""
     },
+    Address: {
+        id: 3,
+        serverName: 'address',
+        placeholder: "Street,number,city,zip",
+        label: "Address", iconName: "building",
+        validations: { minLen: 10 },
+        eror: "",
+        type: "text",
+        options: [],
+        class: "singleLine",
+        value: ""
+    },
 }
 
 export async function getLoginFormData() {
-    return { username: { ...data.username }, password: { ...data.password } }
-}
-
-export async function getLoginFormDataByEmail() {
-    const Email = { ...data.Email }
-    Email.class = 'singleLine'
-    return { email: Email, password: { ...data.password } }
+    const Username = { ...data.username }
+    const Password = { ...data.password }
+    Username.class = 'singleLine'
+    Username.label = Username.label.concat([' or Email'])
+    Username.placeholder = Username.placeholder.concat([' or Email'])
+    Password.class = 'singleLine'
+    return { usernameOrEmail: Username, password: Password }
 }
 
 export async function getSignUpFormData() {
@@ -140,4 +140,13 @@ export async function setUser(newuser) {
             'Content-Type': 'application/json'
         }, body: JSON.stringify(newuser)
     })
+}
+
+export async function saveUser(userdata){
+    data.user= userdata
+    return 'user saved'
+}
+
+export async function getUser(){
+    return data.user
 }
