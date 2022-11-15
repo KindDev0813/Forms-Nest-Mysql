@@ -1,15 +1,13 @@
 export function validate(tovalidate,waysto,title){
-    /*accepts 2 arrguments what to validate and the name of how to 
-    return a sentence of invalidaition if needed*/
+    /*accepts 2 arrguments what to validate and the 
+    name of how to return a sentence of invalidaition if needed*/
     let eror=[]
+    if (waysto.require && !tovalidate) {
+        eror.push(`${title} is required`)
+    }
     if(waysto.minLen){
         if(tovalidate.length < waysto.minLen){
-            if(waysto.minLen>1){
-                eror.push(`${title} must include more than ${waysto.minLen} letters`)
-            }
-            else{
-                eror.push(`${title} is required`)
-            }
+        eror.push(`${title} must include more than ${waysto.minLen} letters`)
         }
     }
     if(waysto.numbers){
