@@ -22,11 +22,15 @@ Go to the web-server folder = > src folder = > config folder => config file
 
 # How to add/change validation?
 ### What is already optional?
-Four validations already exsist: 
-- [x] require <sub>checks if any input was added</sub>
-- [x] email <sub>checks if the input is the correct format for an email using regax</sub>
-- [x] minLen <sub>checks if the input lengths is at least the amount you asked for</sub>
-- [x] numbers <sub>checks if the input has at least 1 number</sub>
+<details open>
+    <summary>Four validations already exsist:</summary>
+    <li>- [x] require <sub>checks if any input was added</sub></li>
+    <li>- [x] email <sub>checks if the input is the correct format for an email using regax</sub></li>
+    <li>- [x] minLen <sub>checks if the input lengths is at least the amount you asked for</sub></li>
+    <li>- [x] numbers <sub>checks if the input has at least 1 number</sub></li>
+</details>
+ 
+
 ### How to add a new validation?
 Go to the validation file (website folder => src folder => common folder => validation) add your if statement to check your validation
 ### How to add a validation to a field?
