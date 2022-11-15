@@ -1,28 +1,32 @@
 import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { getLoginFormData, checkUser, getLoginFormDataByEmail } from "../../DAL/api"
+import { validate } from "../../common/validation"
+import { saveUser } from "../../DAL/api"
+import { getLoginFormData, checkUser } from "../../DAL/api"
 import Formcomp from "./formComp"
 
 export default function LogIn() {
 
-    const [form, setform] = useState(null)
-    const [by,setby] = useState(true)
+    const [data, setdata] = useState({form:null})
 
     useEffect(() => {
         async function getLoginData() {
-            by ?
-            setform(await getLoginFormData())
-            :
-            setform(await getLoginFormDataByEmail())
+            const forms = await getLoginFormData()
+            setdata({form:forms})
         }
         getLoginData()
-    },[by])
+    },[])
     const navigate = useNavigate()
 
     async function setuser(allset){
-        const user = await checkUser(by?{username:allset.username.value,password:allset.password.value}:{email:allset.email.value,password:allset.password.value})
+        const user = await checkUser(validate(allset.usernameOrEmail.value,{email:true},"usernameOrEmail")? 
+        {username:allset.usernameOrEmail.value,password:allset.password.value}
+        :{email:allset.usernameOrEmail.value,password:allset.password.value}
+        )
         if(user.ok===true){
-            navigate('/')
+            const userData= await user.json()
+            saveUser(userData)
+            navigate('/signUp')
         }
         else{
             alert('user name or pasword is wrong') 
@@ -30,10 +34,11 @@ export default function LogIn() {
     }
     return (
         <div className="text-center">
-            <p className='AppForm' style={{cursor:'pointer'}} onClick={()=>{by?setby(false):setby(true)}}>click here to identify {by?'by email':'by username'}</p>
-            {form?<Formcomp formTitle='Log In' onclick={setuser} 
-            data={form} submitName='enter'></Formcomp>:<h1>Please Wait...</h1>}
-            <button onClick={()=>navigate('/signup')} className="formbutton"><Link style={{color:'white',textShadow:'2px 2px 2px blue'}}>Sign up</Link></button>
+            {data.form?
+            <Formcomp formTitle='Log In' onclick={setuser} 
+            data={data.form} submitName='enter'></Formcomp>:<h1>please wait..</h1>}
+            <button onClick={()=>navigate('/signup')} className="formbutton">
+            <Link style={{color:'white',textShadow:'2px 2px 2px blue'}}>Sign up</Link></button>
         </div>
     )
 }
