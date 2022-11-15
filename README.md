@@ -50,7 +50,7 @@ To add them simply go to the api file (website folder => src folder => DAL folde
     </ul>
 </details>
 <details>
-    <summary>Sign in form</summary>
+    <summary>Sign up form</summary>
     <ul>
         <li><img src='https://user-images.githubusercontent.com/108211669/201932187-65842bd9-0bc6-42b1-a1aa-e4c86381978a.png'/></li>
     </ul>
@@ -61,19 +61,20 @@ To add them simply go to the api file (website folder => src folder => DAL folde
       <details>
          <summary>before login in</summary>
          <ul>
-            <li><img src='https://user-images.githubusercontent.com/108211669/201932483-b0052ff0-d8e1-407b-81ca-2d586eb22fd7.png'/>
-            <p>a click on the light blue text would take the user back to the log in form</p></li>
+            <li><img src='https://user-images.githubusercontent.com/108211669/201970481-f3a6b51f-be93-41d4-b0d8-c354acff78a9.png'/>
+            <p>a click on the light blue text would take the user back to the log in form and a click on the sign up button would take the user to the sign up form</p></li>
          </ul>
       </details>
       <details>
          <summary>after login in</summary>
          <ul>
-            <li><img src='https://user-images.githubusercontent.com/108211669/201935182-a9f2e4e1-d94f-422d-9ddb-fce19cad6421.png'/>
-            <p>after pressing enter in the login form the user would be transfered to the home page and the user first name would be used</p></li>
+            <li><img src='https://user-images.githubusercontent.com/108211669/201971086-ab8c2229-5062-49a7-b40d-27a8c3ebf919.png'/>
+            <p>after pressing enter in the login form the user would be transfered to the home page and the user first name would be used, a click onthe log out button             will changed the page back to its state before login in</p></li>
          </ul>
       </details>
     </ul>
 </details>
+
 
 # More
 please read the inside README of both web-server and website files
