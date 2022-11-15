@@ -150,3 +150,8 @@ export async function saveUser(userdata){
 export function getUser(){
     return data.user
 }
+
+export async function logOut() {
+    data.user= undefined
+    return fetch('http://localhost:4000/users/logout', { credentials: 'include' })
+}

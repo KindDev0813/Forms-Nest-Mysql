@@ -49,6 +49,11 @@ let UsersController = class UsersController {
         }
         throw new common_1.HttpException(body.username, common_1.HttpStatus.NOT_FOUND);
     }
+    logout(session) {
+        const name = session.user.name;
+        session.user = undefined;
+        return `${name} has loged out`;
+    }
     update(id, updateUserDto) {
         return this.usersService.update(+id, updateUserDto);
     }
@@ -77,6 +82,13 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "findbyUsername", null);
+__decorate([
+    (0, common_1.Get)('/logout'),
+    __param(0, (0, common_1.Session)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "logout", null);
 __decorate([
     (0, common_1.Patch)(':id'),
     __param(0, (0, common_1.Param)('id')),

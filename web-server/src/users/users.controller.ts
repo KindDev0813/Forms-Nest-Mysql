@@ -44,6 +44,13 @@ export class UsersController {
     throw new HttpException(body.username, HttpStatus.NOT_FOUND);
   }
 
+  @Get('/logout')
+  logout(@Session() session:Record<string,any>){
+    const name= session.user.name
+    session.user= undefined
+    return `${name} has loged out`
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(+id, updateUserDto);
