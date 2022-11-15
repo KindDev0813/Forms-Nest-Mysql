@@ -1,13 +1,16 @@
 # Forms
-**project in progress**
+<details open>
+    <summary>This Project Include:</summary>
+    <ul>
+        <li> MySQL</li>
+        <li> react</li>
+        <li> nestJS</li>
+        <li> typeORM <sub>//connecting to mysql//</sub></li>
+        <li> bootstrap</li>
+        <li> bcrypt</li>
+    </ul>
+</details>
 
-# This Project Include:
-* MySQL
-* react
-* nestJS
-* typeORM <sub>//connecting to mysql//</sub>
-* bootstrap
-* bcrypt
 
 # Which Forms?
 - [x] sign in 
@@ -19,7 +22,7 @@ Go to the web-server folder = > src folder = > config folder => config file
 
 # How to add/change validation?
 ### What is already optional?
-Two validations already exsist: 
+Four validations already exsist: 
 - [x] require <sub>checks if any input was added</sub>
 - [x] email <sub>checks if the input is the correct format for an email using regax</sub>
 - [x] minLen <sub>checks if the input lengths is at least the amount you asked for</sub>
@@ -27,8 +30,13 @@ Two validations already exsist:
 ### How to add a new validation?
 Go to the validation file (website folder => src folder => common folder => validation) add your if statement to check your validation
 ### How to add a validation to a field?
-To add them simply go to the api file (website folder => src folder => DAL folder => api) and change the data object for example:
-![image](https://user-images.githubusercontent.com/108211669/198567878-b28285b9-0842-4bb5-b07c-375342a7d0a2.png)
+To add them simply go to the api file (website folder => src folder => DAL folder => api) and change the data object 
+<details>
+    <summary>for example</summary>
+    <ul>
+        <img src='https://user-images.githubusercontent.com/108211669/198567878-b28285b9-0842-4bb5-b07c-375342a7d0a2.png'/>
+    </ul>
+</details>
 
 # Pictures
 <details>
