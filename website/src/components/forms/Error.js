@@ -1,6 +1,6 @@
 function ErorMessage(props) {
     return (
-        <span className='show'>
+        <span className='red'>
             {props.eror}
         </span>
     )
