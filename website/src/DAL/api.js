@@ -147,6 +147,6 @@ export async function saveUser(userdata){
     return 'user saved'
 }
 
-export async function getUser(){
+export function getUser(){
     return data.user
 }
