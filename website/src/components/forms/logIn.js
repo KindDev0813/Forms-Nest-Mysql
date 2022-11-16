@@ -34,7 +34,7 @@ export default function LogIn() {
             {data?
             <Formcomp formTitle='Log In' onclick={setuser} 
             data={data} submitName='enter'></Formcomp>:<h1>please wait..</h1>}
-            <span><Link to={'/home'}>Enter as guest</Link> OR <Link to={'/signUp'}>Sign up</Link></span>
+            <span><Link to={'/home'}>Enter as guest</Link> OR <Link to={'/signup'}>Sign up</Link></span>
         </div>
     )
 }

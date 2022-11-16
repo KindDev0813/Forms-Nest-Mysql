@@ -8,7 +8,7 @@ export function Home() {
     const [user,setuser]= useState(getUser())
     
     function OutOrSign(){
-        user? logOut() : navigate('/signUp')
+        user? logOut() : navigate('/signup')
         setuser(getUser())
     }
 

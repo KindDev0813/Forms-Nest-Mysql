@@ -1,4 +1,4 @@
-const data = {
+const formData = {
     firstName: {
         id: 4,
         serverName: 'firstName',
@@ -107,10 +107,10 @@ const data = {
         value: ""
     },
 }
-
+let user=undefined
 export async function getLoginFormData() {
-    const Username = { ...data.username }
-    const Password = { ...data.password }
+    const Username = { ...formData.username }
+    const Password = { ...formData.password }
     Username.class = 'singleLine'
     Username.label = Username.label.concat([' or Email'])
     Username.placeholder = Username.placeholder.concat([' or Email'])
@@ -119,7 +119,7 @@ export async function getLoginFormData() {
 }
 
 export async function getSignUpFormData() {
-    return data
+    return formData
 }
 
 export async function checkUser(user) {
@@ -143,15 +143,15 @@ export async function setUser(newuser) {
 }
 
 export async function saveUser(userdata){
-    data.user= userdata
+    user= userdata
     return 'user saved'
 }
 
 export function getUser(){
-    return data.user
+    return user
 }
 
 export async function logOut() {
-    data.user= undefined
+    user= undefined
     return fetch('http://localhost:4000/users/logout', { credentials: 'include' })
 }
