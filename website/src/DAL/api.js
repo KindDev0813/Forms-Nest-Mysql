@@ -153,5 +153,5 @@ export function getUser(){
 
 export async function logOut() {
     user= undefined
-    return fetch('http://localhost:4000/users/logout', { credentials: 'include' })
+    return fetch('http://localhost:4005/users/logout', { credentials: 'include' })
 }
