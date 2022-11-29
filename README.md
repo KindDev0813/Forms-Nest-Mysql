@@ -4,6 +4,7 @@
     <ul>
         <li> MySQL</li>
         <li> react</li>
+        <li> Redux/Toolkit</li>
         <li> nestJS</li>
         <li> typeORM <sub>//connecting to mysql//</sub></li>
         <li> bootstrap</li>
