@@ -1,11 +1,14 @@
-import { useEffect, useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
-import { validate } from "../../common/validation"
-import { getLoginFormData, checkUser, saveUser } from "../../DAL/api"
-import Formcomp from "./formComp"
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { validate } from "../../common/validation";
+import { getLoginFormData, checkUser } from "../../DAL/api";
+import Formcomp from "./formComp";
+import { useDispatch } from "react-redux";
+import { changeUser } from "../../features/user/userSlice";
 
 export default function LogIn() {
     const [data, setdata] = useState(null)
+    const dispatch = useDispatch();
 
     useEffect(() => {
         async function getLoginData() {
@@ -22,7 +25,7 @@ export default function LogIn() {
         )
         if(user.ok===true){
             const userData= await user.json()
-            saveUser(userData)
+            dispatch(changeUser(userData))
             navigate('/home')
         }
         else{
