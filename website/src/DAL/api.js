@@ -107,7 +107,11 @@ const formData = {
         value: ""
     },
 }
-let user=undefined
+
+export async function getSignUpFormData() {
+    return formData
+}
+
 export async function getLoginFormData() {
     const Username = { ...formData.username }
     const Password = { ...formData.password }
@@ -116,10 +120,6 @@ export async function getLoginFormData() {
     Username.placeholder = Username.placeholder.concat([' or Email'])
     Password.class = 'singleLine'
     return { usernameOrEmail: Username, password: Password }
-}
-
-export async function getSignUpFormData() {
-    return formData
 }
 
 export async function checkUser(user) {
@@ -132,7 +132,7 @@ export async function checkUser(user) {
     })
 }
 
-export async function setUser(newuser) {
+export async function newUser(newuser) {
     return await fetch('http://localhost:4005/users/signup', {
         credentials: 'include', method: 'POST'
         , headers: {
@@ -140,18 +140,4 @@ export async function setUser(newuser) {
             'Content-Type': 'application/json'
         }, body: JSON.stringify(newuser)
     })
-}
-
-export async function saveUser(userdata){
-    user= userdata
-    return 'user saved'
-}
-
-export function getUser(){
-    return user
-}
-
-export async function logOut() {
-    user= undefined
-    return fetch('http://localhost:4005/users/logout', { credentials: 'include' })
 }

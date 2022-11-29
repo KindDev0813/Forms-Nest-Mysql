@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { getSignUpFormData, setUser } from "../../DAL/api"
+import { getSignUpFormData, newUser } from "../../DAL/api"
 import Formcomp from "./formComp"
 
 export default function SignUp() {
@@ -21,7 +21,7 @@ export default function SignUp() {
         for(const det in allset){
             data[allset[det].serverName]=allset[det].value
         }
-        if(await setUser(data)){
+        if(await newUser(data)){
             navigate('/')
         }
     }
