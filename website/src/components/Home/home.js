@@ -6,16 +6,12 @@ export function Home() {
     const userData = useSelector((state)=>state.user.user);
     const dispatch = useDispatch();
     const navigate = useNavigate()
-    
-    function OutOrSign(){
-        userData? dispatch(disconnect()) : navigate('/signup')
-    }
 
     return (
         <>
             <h1>welcome {userData?.firstName || <span className="App-link" onClick={() => navigate('/')}>log in first</span>}</h1>
-            <button onClick={OutOrSign}>
-                {userData?.firstName ? 'log out' : 'sign up'}</button>
+            {userData? <button onClick={()=>dispatch(disconnect())}>log out</button>: 
+            <button onClick={()=>navigate('/signup')}>sign up</button>}
         </>
         
     )
