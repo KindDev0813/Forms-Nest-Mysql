@@ -12,6 +12,7 @@ export declare class UsersController {
         password: string;
     }, session: Record<string, any>): Promise<CreateUserDto>;
     logout(session: Record<string, any>): string;
+    returnUser(session: Record<string, any>): any;
     update(id: string, updateUserDto: UpdateUserDto): string;
     remove(id: string): string;
 }

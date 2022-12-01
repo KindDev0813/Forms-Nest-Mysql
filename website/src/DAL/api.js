@@ -141,3 +141,12 @@ export async function newUser(newuser) {
         }, body: JSON.stringify(newuser)
     })
 }
+
+export async function getUser(){
+    return await fetch('http://localhost:4005/users/connected', {
+        credentials: 'include', headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    })
+}

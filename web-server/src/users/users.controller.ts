@@ -51,6 +51,11 @@ export class UsersController {
     return `${name} has loged out`
   }
 
+  @Get('/connected')
+  returnUser(@Session() session:Record<string,any>){
+    return session.user
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(+id, updateUserDto);

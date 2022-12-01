@@ -54,6 +54,9 @@ let UsersController = class UsersController {
         session.user = undefined;
         return `${name} has loged out`;
     }
+    returnUser(session) {
+        return session.user;
+    }
     update(id, updateUserDto) {
         return this.usersService.update(+id, updateUserDto);
     }
@@ -89,6 +92,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "logout", null);
+__decorate([
+    (0, common_1.Get)('/connected'),
+    __param(0, (0, common_1.Session)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "returnUser", null);
 __decorate([
     (0, common_1.Patch)(':id'),
     __param(0, (0, common_1.Param)('id')),
