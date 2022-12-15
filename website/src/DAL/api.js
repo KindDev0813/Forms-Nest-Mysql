@@ -42,7 +42,7 @@ const formData = {
         label: "Password", iconName: "key-fill",
         validations: { require:true, minLen: 2 },
         eror: "",
-        type: "password",
+        type: "current-password",
         class: "col-6",
         value: ""
     },

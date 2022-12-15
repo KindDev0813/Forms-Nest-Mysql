@@ -10,7 +10,9 @@ function FormGroupType(props) {
                 type="text"
                 placeholder={props.placeholder}
                 defaultValue={props.value}
-                onBlur={(e) => props.onblur(props.name, e)}
+                name= {props.name}
+                onInput={props.oninput}
+                onBlur={props.onblur}
                 />)
             }
             else if (props.type === 'password') {
