@@ -50,7 +50,7 @@ function Formcomp({formTitle , onclick, data , submitName}) {
                 changeButton={changebutton} validate={obj.validations}
                 class={obj.class} id={obj.id} name={name} optioneror={hideOptionEror} onblur={check} 
                 label={obj.label} iconName={obj.iconName} placeholder={obj.placeholder} 
-                eror={obj.eror} onInput={obj.type=='current-password'&& hideContent} options={obj.options}></FormGroupType>)
+                eror={obj.eror} onInput={obj.type=='current-password'? hideContent:()=>{}} options={obj.options}></FormGroupType>)
         }
         return(formarray)
     }

@@ -5,34 +5,19 @@ import ErorMessage from "./Error";
 
 function FormGroupType(props) {
     const type = () => {
-        if (props.type === 'text') {
+        if (props.type !== 'option' && props.type !== 'button') {
             return (<Form.Control
-                type="text"
+                type={props.type}
+                min={props.min}
                 placeholder={props.placeholder}
                 defaultValue={props.value}
-                name= {props.name}
-                onInput={props.oninput}
+                name={props.name}
+                onInput={props.onInput}
                 onBlur={props.onblur}
-                />)
-            }
-            else if (props.type === 'password') {
-                return (<Form.Control
-                    type="password"
-                placeholder={props.placeholder}
-                defaultValue={props.value}
-                onBlur={(e) => props.onblur(props.name, e)}
-                />)
-            }
-            else if(props.type === 'phone'){
-                return (<Form.Control
-                    type="tel"
-                    placeholder={props.placeholder}
-                    defaultValue={props.value}
-                    onBlur={(e) => props.onblur(props.name, e)}
-                    />)
-                }
-                else if (props.type === 'option') {
-                    return (<Form.Control onClick={(e) => props.optioneror(e, props.id)} defaultValue ={props.value} as='select'>
+            />)
+        }
+        else if (props.type === 'option') {
+            return (<Form.Control onClick={(e) => props.optioneror(e, props.id)} defaultValue={props.value} as='select'>
                 <option value=''>{props.placeholder}</option>
                 {returnOptions('option')}
             </Form.Control>)
@@ -66,11 +51,11 @@ function FormGroupType(props) {
 
     return (
         <Form.Group md="4" controlId={`validationCustom${props.label}`} className={props.class}>
-            {props.iconName? <Form.Label>{props.label}</Form.Label>:''}
+            {props.iconName ? <Form.Label>{props.label}</Form.Label> : ''}
             <InputGroup>
-                <InputGroup.Text className={`bi bi-${props.iconName}`}>{props.iconName? '':props.label}</InputGroup.Text>
+                <InputGroup.Text className={`bi bi-${props.iconName}`}>{props.iconName ? '' : props.label}</InputGroup.Text>
                 {type()}
-                {props.validate.require ? <span className="red star">*</span>:''}
+                {props.validate.require ? <span className="red star">*</span> : ''}
             </InputGroup>
             <ErorMessage id={props.id} eror={props.eror}></ErorMessage>
         </Form.Group>
