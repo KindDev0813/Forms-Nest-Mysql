@@ -3,7 +3,6 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import './App.css';
 import LogIn from "./components/forms/logIn";
 import SignUp from "./components/forms/SignUp";
-import { useEffect } from "react"
 import {Route, Routes} from 'react-router-dom';
 import { Home } from "./components/Home/home";
 
