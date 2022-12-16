@@ -26,6 +26,7 @@ function FormGroupType(props) {
                 onKeyPress={onKey}
                 onInput={props.onInput}
                 onBlur={props.onblur}
+                autoComplete={props.type.includes('password')? 'off':''}
             />)
         }
         else if (props.type === 'option') {
