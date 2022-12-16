@@ -4,6 +4,17 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import ErorMessage from "./Error";
 
 function FormGroupType(props) {
+    function onKey(e){
+        if(e.key === 'Enter'){
+            const next = e.target.parentElement.parentElement.nextElementSibling
+            if(next){
+                e.preventDefault()
+                next.firstElementChild.nextElementSibling.firstElementChild.nextElementSibling.focus()
+            }
+            props.onblur(e)
+        }
+    }
+
     const type = () => {
         if (props.type !== 'option' && props.type !== 'button') {
             return (<Form.Control
@@ -12,6 +23,7 @@ function FormGroupType(props) {
                 placeholder={props.placeholder}
                 defaultValue={props.value}
                 name={props.name}
+                onKeyPress={onKey}
                 onInput={props.onInput}
                 onBlur={props.onblur}
             />)
